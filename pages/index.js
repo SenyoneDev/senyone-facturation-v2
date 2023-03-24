@@ -1,4 +1,5 @@
 import { Seo } from "../components";
+import { Calltoaction, Hero, Upload } from "../components/sections";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
@@ -6,13 +7,10 @@ export default function Home() {
     <div className={styles.container}>
       <Seo />
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to{" "}
-          <a href="https://github.com/honorableCon/nextjs-tailwind-starter">
-            Nextjs Tailwind Starter
-          </a>
-        </h1>
+      <main className={"flex flex-col gap-6 items-center justify-center p-12"}>
+        <Hero />
+        <Upload />
+        <Calltoaction />
       </main>
     </div>
   );

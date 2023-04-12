@@ -1,19 +1,11 @@
 import React from "react";
 import { DiDropbox, DiGoogleDrive, DiOnedrive } from "react-icons/di";
-import {
-  BsArrowDownShort,
-  BsCloudUpload,
-  BsFilePdfFill,
-  BsFiletypeCsv,
-  BsFiletypeJson,
-  BsFiletypeTxt,
-  BsFiletypeXlsx,
-  BsImageFill,
-} from "react-icons/bs";
+import { BsCloudUpload, BsFilePdfFill, BsImageFill } from "react-icons/bs";
 import { ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../config/firebase";
 import { getInvoiceData } from "../../services/getinvoicedata";
-import { Parser } from "@json2csv/plainjs";
+import Download from "./Download";
+import Loader from "../Loader";
 
 const Upload = () => {
   const [image, setImage] = React.useState({ source: "", file: "" });
@@ -46,18 +38,14 @@ const Upload = () => {
       });
   };
 
-  if (loader) {
-    return <Spinner />;
-  }
-
-  if (data) {
-    return <Download data={data} />;
-  }
+  if (loader) return <Loader />;
+  if (data) return <Download data={data} />;
 
   return (
     <div>
+      <img className="mx-auto h-20" src={"/step1.svg"} alt="step indication" />
       <div className="flex justify-center items-center gap-4">
-        <label className="bg-complementary text-2xl text-white px-10 py-7 rounded-3xl font-semibold flex gap-3 cursor-pointer">
+        <label className="bg-complementary text-2xl text-white px-10 py-7 rounded-3xl font-semibold flex gap-3 cursor-pointer hover:bg-primary active:bg-secondary">
           <BsCloudUpload className="animate-bounce" size={30} />
           Charger la facture
           <input onChange={handleChange} type="file" hidden />
@@ -86,78 +74,3 @@ const Upload = () => {
 };
 
 export default Upload;
-
-const Spinner = () => {
-  return (
-    <div className="flex flex-col gap-2 justify-center items-center">
-      <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-primary"></div>
-      <p className="text-center">Processing...</p>
-    </div>
-  );
-};
-
-const Download = ({ data }) => {
-  const downloadAsJson = () => {
-    const element = document.createElement("a");
-    const file = new Blob([JSON.stringify(data, null, 4)], {
-      type: "application/json",
-    });
-    element.href = URL.createObjectURL(file);
-    element.download = "data.json";
-    document.body.appendChild(element);
-    element.click();
-  };
-
-  const downloadAsCsv = () => {
-    const element = document.createElement("a");
-    const parser = new Parser();
-    const csv = parser.parse(data);
-
-    const file = new Blob([csv], { type: "text/csv" });
-    element.href = URL.createObjectURL(file);
-    element.download = "data.csv";
-    document.body.appendChild(element);
-    element.click();
-  };
-
-  return (
-    <div className="text-center">
-      <h2>Téléchargez</h2>
-      <p className="font-semibold leading-8">
-        {"votre facture dans n’importe quel format"}
-      </p>
-      <div className="flex gap-6 w-fit mx-auto mt-4">
-        <div className="bg-primary text-white rounded-3xl p-4 relative">
-          <div className="absolute bottom-0 right-0 text-white p-1 animate-bounce">
-            <BsArrowDownShort size={20} />
-          </div>
-          <BsFiletypeXlsx size={40} />
-        </div>
-        <div
-          onClick={downloadAsCsv}
-          className="bg-primary text-white rounded-3xl p-4 relative cursor-pointer"
-        >
-          <div className="absolute bottom-0 right-0 text-white p-1 animate-bounce">
-            <BsArrowDownShort size={20} />
-          </div>
-          <BsFiletypeCsv size={40} />
-        </div>
-        <div className="bg-primary text-white rounded-3xl p-4 relative">
-          <div className="absolute bottom-0 right-0 text-white p-1 animate-bounce">
-            <BsArrowDownShort size={20} />
-          </div>
-          <BsFiletypeTxt size={40} />
-        </div>
-        <div
-          onClick={downloadAsJson}
-          className="bg-primary text-white rounded-3xl p-4 relative cursor-pointer"
-        >
-          <div className="absolute bottom-0 right-0 text-white p-1 animate-bounce">
-            <BsArrowDownShort size={20} />
-          </div>
-          <BsFiletypeJson size={40} />
-        </div>
-      </div>
-    </div>
-  );
-};

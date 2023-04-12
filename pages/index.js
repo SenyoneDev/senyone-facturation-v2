@@ -7,7 +7,11 @@ export default function Home() {
     <div className={styles.container}>
       <Seo />
 
-      <main className={"flex flex-col gap-6 items-center justify-center p-12"}>
+      <main
+        className={
+          "flex flex-col gap-6 items-center justify-center p-12 max-w-screen-2xl mx-auto"
+        }
+      >
         <Hero />
         <Upload />
         <Calltoaction />

@@ -77,12 +77,13 @@ const DefaultHeader = () => {
       </nav>
       {/*Profile avatar */}
       <div className="flex gap-4 items-center justify-center">
-        <button
-          //   onClick={() => signOut()}
+        <Link
+          target="_blank"
+          href="https://senyone.sn/#contact"
           className="p-4 py-2 text-sm border-2 border-primary text-complementary font-bold rounded-full hover:border-complementary"
         >
           contactez-nous
-        </button>
+        </Link>
       </div>
       {/* Burger menu */}
       <div className="md:hidden p-2 border rounded-lg border-primary text-complementary font-bold">

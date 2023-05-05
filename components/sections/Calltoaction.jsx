@@ -19,11 +19,21 @@ const Calltoaction = () => {
       </p>
 
       <div className="grid grid-cols-2 items-center gap-8">
-        <Image src="/adsImage.png" width={600} height={400} />
+        <Image
+          src="/adsImage.png"
+          width={600}
+          height={400}
+          alt="automation process"
+        />
         <div className="grid gap-10">
           <div className="flex gap-2">
             <div className="w-64">
-              <Image src="/time.png" width={70} height={10} />
+              <Image
+                src="/time.png"
+                width={70}
+                height={10}
+                alt="gain more time"
+              />
             </div>
             <div>
               <h3 className="font-bold text-lg pb-2">Gagnez du temps</h3>
@@ -37,7 +47,12 @@ const Calltoaction = () => {
           <div>
             <div className="flex gap-2">
               <div className="w-64">
-                <Image src="/calendar.png" width={70} height={70} />
+                <Image
+                  src="/calendar.png"
+                  width={70}
+                  height={70}
+                  alt="archive"
+                />
               </div>
               <div>
                 <h3 className="font-bold text-lg pb-2">

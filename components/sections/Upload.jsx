@@ -2,46 +2,32 @@ import React from "react";
 import { DiDropbox, DiGoogleDrive, DiOnedrive } from "react-icons/di";
 import { BsCloudUpload, BsFilePdfFill, BsImageFill } from "react-icons/bs";
 import { AnimatePresence, motion } from "framer-motion";
-import { ref, uploadBytesResumable } from "firebase/storage";
-import { storage } from "../../config/firebase";
 import { getInvoiceData } from "../../services/getinvoicedata";
 import Download from "./Download";
 import Loader from "../Loader";
 import Visualize from "./Visualize";
 
 const Upload = () => {
-  const [image, setImage] = React.useState({ source: "", file: "" });
   const [loader, setLoader] = React.useState(false);
   const [data, setData] = React.useState(null);
 
   const handleChange = async (e) => {
     const file = e.target.files[0];
-    const imagePath = URL.createObjectURL(file);
-    const storageRef = ref(storage, `files/invoices/${file.name}`);
+    // const imagePath = URL.createObjectURL(file);
 
-    setImage({ source: imagePath, file });
     setLoader(true);
 
-    if (!image) return -1;
-
-    uploadBytesResumable(storageRef, file);
-
-    await getInvoiceData(image.file)
-      .then((res) => {
-        setData(res);
-        setLoader(false);
-      })
-      .catch((e) => {
-        setLoader(false);
-      });
+    const res = await getInvoiceData(file);
+    setData(res);
+    setLoader(false);
   };
 
   if (loader) return <Loader />;
   if (data)
     return (
       <div className="flex space-x-8 items-start my-8">
-        <Download data={data} />
-        <Visualize />
+        <Download data={data.data} />
+        <Visualize link={data.archive.sharableLink} />
       </div>
     );
 

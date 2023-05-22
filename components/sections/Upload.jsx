@@ -6,20 +6,56 @@ import { getInvoiceData } from "../../services/getinvoicedata";
 import Download from "./Download";
 import Loader from "../Loader";
 import Visualize from "./Visualize";
+import { useSession } from "next-auth/react";
 
 const Upload = () => {
   const [loader, setLoader] = React.useState(false);
+  const [file, setFile] = React.useState(false);
   const [data, setData] = React.useState(null);
+  const { data: session } = useSession();
+
+  const popupSignin = (url, title) => {
+    const dualScreenLeft = window.screenLeft ?? window.screenX;
+    const dualScreenTop = window.screenTop ?? window.screenY;
+
+    const width =
+      window.innerWidth ?? document.documentElement.clientWidth ?? screen.width;
+
+    const height =
+      window.innerHeight ??
+      document.documentElement.clientHeight ??
+      screen.height;
+
+    const systemZoom = width / window.screen.availWidth;
+
+    const left = (width - 500) / 2 / systemZoom + dualScreenLeft;
+    const top = (height - 550) / 2 / systemZoom + dualScreenTop;
+
+    const newWindow = window.open(
+      url,
+      title,
+      `width=${500 / systemZoom},height=${
+        550 / systemZoom
+      },top=${top},left=${left}`
+    );
+
+    newWindow?.focus();
+  };
+
+  if (file && session) {
+    const username = session?.user?.email?.split("@")[0];
+    setLoader(true);
+    getInvoiceData(file, username).then((res) => {
+      setData(res);
+      setLoader(false);
+    });
+    setFile(null);
+  }
 
   const handleChange = async (e) => {
     const file = e.target.files[0];
-    // const imagePath = URL.createObjectURL(file);
-
-    setLoader(true);
-
-    const res = await getInvoiceData(file);
-    setData(res);
-    setLoader(false);
+    if (!session) popupSignin("/auth/google", "SignIn with google");
+    setFile(file);
   };
 
   if (loader) return <Loader />;

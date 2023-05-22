@@ -1,10 +1,12 @@
 // import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { RiMenu3Fill } from "react-icons/ri";
 
 const DefaultHeader = () => {
+  const { data: session } = useSession();
   const [fixeMenu, setFixeMenu] = useState(false);
   const MENUSIZE = 15;
   useEffect(() => {
@@ -84,6 +86,18 @@ const DefaultHeader = () => {
         >
           contactez-nous
         </Link>
+        {session && (
+          <div className="w-12 h-12 bg-gradient-to-b from-primary to-secondary p-1 rounded-full overflow-hidden">
+            <Image
+              className="object-contain cursor-pointer rounded-full"
+              onClick={() => signOut()}
+              src={session?.user?.image}
+              width={150}
+              height={150}
+              alt={session.user.name}
+            />
+          </div>
+        )}
       </div>
       {/* Burger menu */}
       <div className="md:hidden p-2 border rounded-lg border-primary text-complementary font-bold">

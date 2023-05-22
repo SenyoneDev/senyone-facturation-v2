@@ -1,11 +1,11 @@
 {
   "folders": [
-	{
-		"path": "../.."
-	},
-	{
-		"path": "../../../senyone-invoice-processing-api"
-	}
-],
+    {
+      "path": "../.."
+    },
+    {
+      "path": "../../../senyone-invoice-processing-api"
+    }
+  ],
   "settings": {}
 }

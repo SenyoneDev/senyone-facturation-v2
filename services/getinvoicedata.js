@@ -1,11 +1,11 @@
 import axios from "axios";
 
-export const getInvoiceData = async (file) => {
+export const getInvoiceData = async (file, folderName) => {
   let response;
   try {
     let formData = new FormData();
     formData.append("file", file);
-    formData.append("folderName", Date.now());
+    formData.append("folderName", folderName || Date.now());
     response = await axios.post(
       "https://senyone-invoice-api.onrender.com/invoices",
       formData,

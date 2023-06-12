@@ -42,7 +42,7 @@ const Download = ({ data }) => {
           <div
             key={index}
             onClick={item.action}
-            className="bg-primary text-white rounded-3xl p-4 relative cursor-pointer hover:bg-secondary active:bg-complementary"
+            className="bg-complementary text-white rounded-3xl p-4 relative cursor-pointer hover:bg-primary active:bg-complementary"
           >
             <div className="absolute bottom-0 right-0 text-white p-1 animate-bounce">
               <BsArrowDownShort size={20} />

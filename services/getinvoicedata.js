@@ -7,8 +7,8 @@ export const getInvoiceData = async (file, folderName) => {
     formData.append("file", file);
     formData.append("folderName", folderName || Date.now());
     response = await axios.post(
-      // "https://senyone-invoice-api.onrender.com/invoices",
-      "http://localhost:3005/invoices",
+      "https://senyone-invoice-api.onrender.com/invoices",
+      // "http://localhost:3005/invoices",
       formData,
       {
         headers: {
